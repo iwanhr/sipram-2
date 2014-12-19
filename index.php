@@ -1,5 +1,9 @@
 <?php
+require_once __DIR__ . '/vendor/autoload.php';
 
+session_start();
+
+date_default_timezone_set('Asia/Jakarta');
 /*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT

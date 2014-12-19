@@ -1,0 +1,1 @@
+INSERT INTO `sipram_db`.`tbl_user` (`id_user`, `username`, `password`, `salt`, `email`, `phone`, `id_status`, `id_level`, `deleted`, `activate`) VALUES (NULL, 'superadmin', '0192023a7bbd73250516f069df18b500', NULL, 'ali@firzil.co.id', NULL, '1', '1', '0', '1');

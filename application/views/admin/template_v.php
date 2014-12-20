@@ -4,7 +4,7 @@
 
         <!-- start: Meta -->
         <meta charset="utf-8">
-        <title><?=$title;?></title>
+        <title><?= $title; ?></title>
         <meta name="description" content="Bootstrap Metro Dashboard">
         <meta name="author" content="Dennis Ji">
         <meta name="keyword" content="Metro, Metro UI, Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
@@ -43,22 +43,22 @@
     </head>
 
     <body>
-        <?php $this->load->view('admin/nav-bar_v');?>
+        <?php $this->load->view('admin/nav-bar_v'); ?>
 
 
         <div class="container-fluid-full">
             <div class="row-fluid">
 
-            <?php $this->load->view('admin/side-bar_v');?>
+                <?php $this->load->view('admin/side-bar_v'); ?>
 
-           <!--  <noscript>
-            <div class="alert alert-block span10">
-                <h4 class="alert-heading">Warning!</h4>
-                <p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
-            </div>
-            </noscript> -->
+                <!--  <noscript>
+                 <div class="alert alert-block span10">
+                     <h4 class="alert-heading">Warning!</h4>
+                     <p>You need to have <a href="http://en.wikipedia.org/wiki/JavaScript" target="_blank">JavaScript</a> enabled to use this site.</p>
+                 </div>
+                 </noscript> -->
 
-            <?php $this->load->view($content);?>
+                <?php $this->load->view($content); ?>
 
             </div><!--/#content.span10-->
         </div><!--/fluid-row-->
@@ -79,7 +79,7 @@
 
         <div class="clearfix"></div>
 
-        <?php $this->load->view('admin/footer_v');?>
-        
+        <?php $this->load->view('admin/footer_v'); ?>
+
     </body>
 </html>

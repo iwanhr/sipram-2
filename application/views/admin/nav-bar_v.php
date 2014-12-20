@@ -12,7 +12,7 @@
             <!-- start: Header Menu -->
             <div class="nav-no-collapse header-nav">
                 <ul class="nav pull-right">
-                    <li class="dropdown hidden-phone">
+                   <!-- <li class="dropdown hidden-phone">
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                             <i class="halflings-icon white warning-sign"></i>
                         </a>
@@ -95,9 +95,9 @@
                                 <a>View all notifications</a>
                             </li>	
                         </ul>
-                    </li>
+                    </li>-->
                     <!-- start: Notifications Dropdown -->
-                    <li class="dropdown hidden-phone">
+                    <!--<li class="dropdown hidden-phone">
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
                             <i class="halflings-icon white tasks"></i>
                         </a>
@@ -155,7 +155,7 @@
                                 <a class="dropdown-menu-sub-footer">View all tasks</a>
                             </li>	
                         </ul>
-                    </li>
+                    </li>-->
                     <!-- end: Notifications Dropdown -->
                     <!-- start: Message Dropdown -->
                     <li class="dropdown hidden-phone">
@@ -165,7 +165,7 @@
                         <ul class="dropdown-menu messages">
                             <li class="dropdown-menu-title">
                                 <span>You have 9 messages</span>
-                                <a href="#refresh"><i class="icon-repeat"></i></a>
+                                <!-- <a href="#refresh"><i class="icon-repeat"></i></a> -->
                             </li>	
                             <li>
                                 <a href="#">
@@ -248,37 +248,36 @@
                                 </a>
                             </li>
                             <li>
-                                <a class="dropdown-menu-sub-footer">View all messages</a>
+                                <a class="dropdown-menu-sub-footer" href="<?=base_url('secretadmin/message');?>">View all messages</a>
                             </li>	
                         </ul>
                     </li>
                     <!-- end: Message Dropdown -->
                     <li>
-                        <a class="btn" href="#">
+                        <a class="btn" href="<?=base_url('secretadmin/setting');?>">
                             <i class="halflings-icon white wrench"></i>
                         </a>
                     </li>
                     <!-- start: User Dropdown -->
                     <li class="dropdown">
                         <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                            <i class="halflings-icon white user"></i><?=$session->username;?>
+                            <i class="halflings-icon white user"></i> <?=$session->username;?>
                             <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="dropdown-menu-title">
                                 <span>Account Settings</span>
                             </li>
-                            <li><a href="#"><i class="halflings-icon user"></i> Profile</a></li>
-                            <li><a href="<?=base_url('secretadmin/auth/logout');?>"><i class="halflings-icon off"></i> Logout</a></li>
+                            <li><a href="<?=base_url('secretadmin/account');?>"><i class="halflings-icon user"></i> Profile</a></li>
+                            <li><a href="<?=base_url('secretadmin/auth/logout');?>" onclick="return confirm('Are you sure to logout?');"><i class="halflings-icon off"></i> Logout</a></li>
                         </ul>
                     </li>
                     <!-- end: User Dropdown -->
                 </ul>
             </div>
-            <?=var_dump($session);?>
             <!-- end: Header Menu -->
 
         </div>
     </div>
 </div>
-<!-- start: Header -->
+<!-- start: Header

@@ -17,12 +17,47 @@ class SessionAdapter {
 		}
 	}
 
+	/*
+	* @input $sessionName Nama Session
+	* @return boolean
+	*/
 	public function deleteSession($sessionName) {
 		if(!empty($sessionName)) {
 			unset($_SESSION[$sessionName]);
 			return true;
 		}
 		return false;
+	}
+
+	/*
+	* @input $sessionName Nama Session, $rediredct boolean, $rediredctUrl string
+	* @return boolean
+	*/
+	public function checkSession($sessionName, $redirect = true, $redirectUrl = "") {
+		if (empty($_SESSION[$sessionName])) {
+			if ($redirect) {
+				redirect(base_url($redirectUrl));
+			} else {
+				return true;
+			}
+		} else {
+			if ($redirect) {
+				redirect(base_url($redirectUrl));
+			} else {
+				return true;
+			}
+		}	
+	}
+
+	/*
+	* @input $sessionName Nama Session, $rediredct boolean, $rediredctUrl string
+	* @return boolean
+	*/
+	public function inSession($sessionName, $redirectUrl = "") {
+		if (!isset($_SESSION[$sessionName])) {
+			redirect(base_url($redirectUrl));
+		}
+		return $_SESSION[$sessionName];
 	}
 
 }

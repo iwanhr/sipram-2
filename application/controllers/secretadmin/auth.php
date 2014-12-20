@@ -17,6 +17,8 @@ class Auth extends CI_Controller {
     }
 
     public function login() {
+        $session = new \PyramidLib\Common\SessionAdapter();
+
     	$this->load->library('form_validation');
         $data['error'] = FALSE;
 
@@ -39,9 +41,12 @@ class Auth extends CI_Controller {
 
             if ($user) {
                 $dataUser = $this->user_m->getDataUser($username);
-                var_dump($dataUser);
-            	// $checkSession = new \PyramidLib\Common\SessionAdapter();
-            	// $out = $checkSession->checkSession(SESSION_NAME_ADMIN, true, 'secretadmin/dashboard', 'admin/login');
+
+                $createSession = $session->saveSession($dataUser, SESSION_NAME_ADMIN);
+
+                if ($createSession) {
+                    redirect(base_url('secretadmin/dashboard'));
+                }
             }
             else{
                 $data['error'] = "Check your Username & Password";
@@ -51,11 +56,14 @@ class Auth extends CI_Controller {
     }
 
     public function logout() {
-    	// $checkSession = new \PyramidLib\Common\SessionAdapter();
-        // $out = $checkSession->checkSession(SESSION_NAME_ADMIN, false, 'secretadmin/dashboard', 'secretadmin/auth/login');
-        // if ($out) {
-        	// $checkSession->deleteSession(SESSION_NAME_ADMIN, true, 'secretadmin/auth/login');
-        // }
+        $session = new \PyramidLib\Common\SessionAdapter();
+        $getData = $session->inSession(SESSION_NAME_ADMIN, 'secretadmin/auth/login');
+
+        if ($getData) {
+            $session->deleteSession(SESSION_NAME_ADMIN);
+
+            $session->inSession(SESSION_NAME_ADMIN, 'secretadmin/auth/login');
+        }
     }
 
 }

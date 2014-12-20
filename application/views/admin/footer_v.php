@@ -1,7 +1,7 @@
 <footer>
 
     <p>
-        <span style="text-align:left;float:left">&copy; 2013 <a href="http://jiji262.github.io/Bootstrap_Metro_Dashboard/" alt="Bootstrap_Metro_Dashboard">Bootstrap Metro Dashboard</a></span>
+        <span style="text-align:left;float:left">&copy; <?=date("Y");?> <a href="http://github.com/akuikialie/sipram" alt="Web Code SiPram">Scout Universitas Airlangga</a></span>
 
     </p>
 
@@ -63,4 +63,6 @@
 <script src="<?= base_url(); ?>asset/admin/js/retina.js"></script>
 
 <script src="<?= base_url(); ?>asset/admin/js/custom.js"></script>
+
+<script src="<?= base_url(); ?>asset/admin/js/mylib.js"></script>
 <!-- end: JavaScript-->

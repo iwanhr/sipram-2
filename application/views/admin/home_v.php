@@ -5,12 +5,16 @@
     <ul class="breadcrumb">
         <li>
             <i class="icon-home"></i>
-            <a href="index.html">Home</a> 
+            <a href="<?=$url_home;?>">Home</a> 
             <i class="icon-angle-right"></i>
         </li>
-        <li><a href="#">Dashboard</a></li>
+        <li><a href="<?=$current_url_breadcrumb;?>">Dashboard</a></li>
     </ul>
 
+    <div class="row-fluid" style="font-size:40px;margin-top:5em" align="center">
+        <strong>SCOUT APPS ADMIN PANEL</strong> <small>ver alpha1.0</small>
+    </div>
+<!--
     <div class="row-fluid">
 
         <div class="span3 statbox purple" onTablet="span6" onDesktop="span3">
@@ -89,7 +93,7 @@
             <div class="clearfix"></div>
 
         </div><!-- End .sparkStats -->
-
+<!--
     </div>
 
     <div class="row-fluid hideInIE8 circleStats">
@@ -381,7 +385,7 @@
             </div>
 
         </div><!--/span-->
-
+<!--
         <div class="widget span3 red" onTablet="span6" onDesktop="span3">
 
             <h2><span class="glyphicons pie_chart"><i></i></span> Browsers</h2>
@@ -422,7 +426,7 @@
                 <div id="serverLoad2" style="height:224px;"></div>
             </div>
         </div>
-
+<!--
     </div>
 
     <div class="row-fluid">
@@ -497,7 +501,7 @@
             </div>
         </div><!--/span-->
 
-        <div class="box black span4" onTablet="span6" onDesktop="span4">
+<!--        <div class="box black span4" onTablet="span6" onDesktop="span4">
             <div class="box-header">
                 <h2><i class="halflings-icon white user"></i><span class="break"></span>Last Users</h2>
                 <div class="box-icon">
@@ -543,7 +547,7 @@
             </div>
         </div><!--/span-->
 
-        <div class="box black span4 noMargin" onTablet="span12" onDesktop="span4">
+<!--        <div class="box black span4 noMargin" onTablet="span12" onDesktop="span4">
             <div class="box-header">
                 <h2><i class="halflings-icon white check"></i><span class="break"></span>To Do List</h2>
                 <div class="box-icon">
@@ -599,7 +603,7 @@
                 </div>	
             </div>
         </div>
-
+<!--
     </div>
 
     <div class="row-fluid">	

@@ -25,6 +25,8 @@ class Member extends CI_Controller {
         $data['url_home'] = base_url('secretadmin');
         $data['current_url_breadcrumb'] = current_url();
 
+        $data['dataAdministrator'] = $this->user_m->get_all_administrator();
+
         $this->load->view('admin/template_v', $data);
     }
 

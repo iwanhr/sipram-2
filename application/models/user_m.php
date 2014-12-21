@@ -48,6 +48,16 @@ class User_m extends CI_Model {
 		return $user;
 	}
 
+	function get_all_administrator() {
+		$sql="select u.id_user, u.username,u.email, u.phone, u.id_status,u.activate, u.id_level, u.date_registered , l.level_name, s.nama_status from tbl_user u left join tbl_level l on u.id_level = l.id_level
+            left join tbl_status s on u.id_status = s.id_status
+            where u.id_level in (1, 2, 3, 4)";
+
+		$query=$this->db->query($sql);
+		$user = $query->result_object();
+		return $user;
+	}
+
 }
 
 /* End of file  */

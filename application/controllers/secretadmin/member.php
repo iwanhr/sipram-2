@@ -45,7 +45,6 @@ class Member extends CI_Controller {
     public function new_member()
     {
         $data = array();
-        $data['content'] = "admin/new_member_v";
         $data['session'] = $this->mySession;
         $data['title'] = "Dashboard | New Member";
         $data['title_page'] = "New Member";
@@ -59,15 +58,36 @@ class Member extends CI_Controller {
             $this->form_validation->set_rules('username', 'Username', 'required');
             $this->form_validation->set_rules('email', 'Email', 'required');
             $this->form_validation->set_rules('phone', 'Phone', 'skip');
-            $this->form_validation->set_rules('password', 'Password', 'min_length[5]|max_length[15]|required');
+            $this->form_validation->set_rules('password', 'Password', 'min_length[5]|'
+                    . 'max_length[15]|required'
+            );
             $this->form_validation->set_rules('confirm-password', 'Confirm Password', 'required|matches[password]');
             if ($this->form_validation->run() == FALSE) {
                 $data['error'] = validation_errors();
             } else {
+                $encryptLib = new \PyramidLib\Helper\Authentication();
+
+                $data = array(
+                    'username' => $_POST['username'],
+                    'email' => $_POST['email'],
+                    'phone' => $_POST['phone'],
+                    'username' => $_POST['username'],
+                    'password' => $encryptLib->encrypt($_POST['password']),
+                    'date_registered' => date('Y-m-d H:i:s'),
+                    'id_level' => 5,
+                    'id_status' => 2,
+                    'activate' => 0,
+                    'deleted' => 0,
+                );
+
+                $dbMember = new \PyramidLib\Entity\DatabaseModel($this->db);
+                $insertDataMember = $dbMember->insert('tbl_user', $data);
                 
-                echo "ready to insert";
+                redirect(base_url("secretadmin/member"));
             }
         }
+        
+        $data['content'] = "admin/new_member_v";
 
         $this->load->view('admin/template_v', $data);
     }

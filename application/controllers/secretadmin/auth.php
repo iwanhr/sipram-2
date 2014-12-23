@@ -5,7 +5,7 @@ if (!defined('BASEPATH'))
 
 class Auth extends CI_Controller {
 
-	function __construct()
+    function __construct()
     {
         parent::__construct();
         $this->load->model('user_m');
@@ -13,13 +13,14 @@ class Auth extends CI_Controller {
 
     public function index()
     {
-    	redirect(base_url('secretadmin/auth/login'));
+        redirect(base_url('secretadmin/auth/login'));
     }
 
-    public function login() {
+    public function login()
+    {
         $session = new \PyramidLib\Common\SessionAdapter();
 
-    	$this->load->library('form_validation');
+        $this->load->library('form_validation');
         $data['error'] = FALSE;
 
         $data['title'] = "Dashboard Admin Page";
@@ -47,15 +48,15 @@ class Auth extends CI_Controller {
                 if ($createSession) {
                     redirect(base_url('secretadmin/dashboard'));
                 }
-            }
-            else{
+            } else {
                 $data['error'] = "Check your Username & Password";
             }
         }
-    	$this->load->view('admin/login_v', $data);
+        $this->load->view('admin/login_v', $data);
     }
 
-    public function logout() {
+    public function logout()
+    {
         $session = new \PyramidLib\Common\SessionAdapter();
         $getData = $session->inSession(SESSION_NAME_ADMIN, 'secretadmin/auth/login');
 

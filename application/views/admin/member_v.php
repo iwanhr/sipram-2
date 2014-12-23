@@ -1,4 +1,4 @@
- start: Content -->
+<!-- start: Content -->
 <div id="content" class="span10">
 
 
@@ -119,46 +119,14 @@
                                     <td class="center"><?=$v->email;?></td>
                                     <td class="center"><?=$v->date_registered;?></td>
                                     <td class="center"><?=$v->level_name;?></td>
-                                    <td class="center"><?=$v->activate;?></td>
+                                    <td class="center"><?php echo $convert->userStatusActive($v->activate);?></td>
                                     <td class="center">
-                                        <span class="label label-success">Active</span>
+                                        <span class="label label-<?=$convert->userStatus($v->id_status)->id;?>"><?=$convert->userStatus($v->id_status)->label;?></span>
                                     </td>                                       
                                 </tr>
                             <?php
                             endforeach;
                             ?>
-                                <tr>
-                                    <td>Dennis Ji</td>
-                                    <td class="center">2012/02/01</td>
-                                    <td class="center">Staff</td>
-                                    <td class="center">
-                                        <span class="label label-important">Banned</span>
-                                    </td>                                       
-                                </tr>
-                                <tr>
-                                    <td>Dennis Ji</td>
-                                    <td class="center">2012/02/01</td>
-                                    <td class="center">Admin</td>
-                                    <td class="center">
-                                        <span class="label">Inactive</span>
-                                    </td>                                        
-                                </tr>
-                                <tr>
-                                    <td>Dennis Ji</td>
-                                    <td class="center">2012/03/01</td>
-                                    <td class="center">Member</td>
-                                    <td class="center">
-                                        <span class="label label-warning">Pending</span>
-                                    </td>                                       
-                                </tr>
-                                <tr>
-                                    <td>Dennis Ji</td>
-                                    <td class="center">2012/01/21</td>
-                                    <td class="center">Staff</td>
-                                    <td class="center">
-                                        <span class="label label-success">Active</span>
-                                    </td>                                        
-                                </tr>                                   
                             </tbody>
                         </table>  
                         <div class="pagination pagination-centered">

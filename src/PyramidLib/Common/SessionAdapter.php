@@ -60,4 +60,12 @@ class SessionAdapter {
 		return $_SESSION[$sessionName];
 	}
 
+	/*
+	* @input $sessionName Nama Session, $rediredct boolean, $rediredctUrl string
+	* @return boolean
+	*/
+	public function isAllowed($sessionName, $id_level) {
+
+	}
+
 }

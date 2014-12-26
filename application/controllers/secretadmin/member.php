@@ -83,6 +83,9 @@ class Member extends CI_Controller {
                 $dbMember = new \PyramidLib\Entity\DatabaseModel($this->db);
                 $insertDataMember = $dbMember->insert('tbl_user', $data);
                 
+//                $emailMember = new \PyramidLib\Helper\EmailMember();
+//                $emailMember->newRegisterMember();
+
                 redirect(base_url("secretadmin/member"));
             }
         }

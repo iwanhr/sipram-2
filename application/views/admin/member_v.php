@@ -99,4 +99,5 @@
             </div><!--/row-->
             <!-- end: Content -->
         </div><!--/#content.span10-->
-    </div><!--/fluid-row
+    </div><!--/fluid-row-->
+</div>

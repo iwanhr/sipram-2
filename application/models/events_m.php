@@ -12,61 +12,96 @@ class Events_m extends CI_Model {
         $this->load->database();
 	}
 
-	function loginAdmin($email='', $password='', $remember=''){
-		$pass=md5($password);
-		$sql="select * from tbl_user
-            where (username = '" . $this->db->escape_str($email) . "' or email = '" . $this->db->escape_str($email) . "') and activate = 1 AND id_status in (1,2,3,4) AND deleted != 1";
-
-		$query=$this->db->query($sql);
-		if ($query->num_rows() === 1){
-			$user = $query->row();
-
-            if ($user) {
-                if ($user->password === $password) {
-                    $sessionLib = new \PyramidLib\Common\SessionAdapter();
-                    $sessionLib->saveSession($user, SESSION_NAME_ADMIN);
-
-                    return true;
-                } else {
-                    return false;
-                }
-            } else {
-                return false;
-            }
-		} else {
-			return false;
-		}
-	}
-
-	function getDataUser($email) 
-	{
-		$sql="select id_user, username,email, phone, id_status, id_level from tbl_user
-            where (username = '" . $this->db->escape_str($email) . "' or email = '" . $this->db->escape_str($email) . "')";
-
-		$query=$this->db->query($sql);
-		$user = $query->row_object();
-		return $user;
-	}
-
-	function get_all_administrator() {
-		$sql="select u.id_user, u.username,u.email, u.phone, u.id_status,u.activate, u.id_level, u.date_registered , l.level_name, s.nama_status from tbl_user u left join tbl_level l on u.id_level = l.id_level
-            left join tbl_status s on u.id_status = s.id_status
-            where u.id_level in (1, 2, 3, 4)";
-
-		$query=$this->db->query($sql);
-		$user = $query->result_object();
-		return $user;
-	}
-
-	function get_all_member($limit, $sortBy, $sortKey) {
-		$sql = "select u.id_user, u.username,u.email, u.phone, u.id_status,u.activate, u.id_level, u.date_registered , l.level_name, s.nama_status from tbl_user u left join tbl_level l on u.id_level = l.id_level
-            left join tbl_status s on u.id_status = s.id_status
-            where u.id_level in (5, 6) order by ". $sortBy." ". $sortKey . " limit 0, " . (int) $limit;
-
+	function get_all_events($limit, $offset, $sortBy, $sortKey) {
+		$sql = "select e.* from tbl_event e left join tbl_user u on e.creator = u.id_user left join tbl_event_type et on et.id_event_type = e.event_type
+            order by ". $sortBy." ". $sortKey . " limit " . $offset . ", " . (int) $limit;
         $query = $this->db->query($sql);
-        $user = $query->result_object();
-        return $user;
+        $data = $query->result_object();
+        
+        foreach($data as $k => $v) {
+            $queryType = "select (select event_type_name from tbl_event_type where id_event_type=et.id_parent_type) as event_type_name_parent, et.event_type_name from tbl_event_type et where et.id_event_type = ".$v->event_type.";";
+            $queryRespond = $this->db->query($queryType);
+            $respond = $queryRespond->row();
+            $data[$k]->type = $respond;
+        }
+        return $data;
 	}
+
+    function get_all_events_count($sortBy, $sortKey) {
+		$sql = "select e.* from tbl_event e left join tbl_user u on e.creator = u.id_user left join tbl_event_type et on et.id_event_type = e.event_type
+            order by ". $sortBy." ". $sortKey;
+        $query = $this->db->query($sql);
+        $data = $query->num_rows();
+        
+        return $data;
+	}
+
+    
+ 
+    function page($jml='', $perhalaman='' ,$hal=''){
+            // jumlah data yang akan ditampilkan per halaman        
+        $dataPerhalaman = $perhalaman;
+        $showhalaman = 0;
+        $nohalaman = 0;
+        // apabila $_GET['halaman'] sudah didefinisikan, gunakan nomor halaman tersebut, 
+        // sedangkan apabila belum, nomor halamannya 1.
+        if($hal==''){
+            $nohalaman = 1;
+        }else{ 
+            $nohalaman = $hal;      
+        }
+        
+        $jumData = $jml;
+
+        // menentukan jumlah halaman yang muncul berdasarkan jumlah semua data
+        $jumhalaman = ceil($jumData/$dataPerhalaman);
+        
+        $output = '<ul>';
+        // menampilkan link previous
+        if ($nohalaman > 1){
+
+            $params = $_GET;
+            $params['hal'] = $nohalaman-1;
+
+            $query = http_build_query($params);        
+            $output .= '<li><a href="?'.$query.'" data-title="Previous Page">Prev</a></li>';
+        } else {        
+            $output .= '<li><a href="#" data-title="Previous Page">Prev</a></li>';
+        }
+
+        // memunculkan nomor halaman dan linknya
+        for($halaman = 1; $halaman <= $jumhalaman; $halaman++)
+        {
+            $params = $_GET;
+            $params['hal'] = $halaman;
+
+            $query = http_build_query($params);
+                 if ((($halaman >= $nohalaman - 2) && ($halaman <= $nohalaman + 2)) || ($halaman == 1) || ($halaman == $jumhalaman)) 
+                 {   
+                    if (($showhalaman == 1) && ($halaman != 2)){  $output .= "<li><a>...</a></li>";} 
+                    if (($showhalaman != ($jumhalaman - 1)) && ($halaman == $jumhalaman)){  $output .= "<li><a>...</a></li>";}
+                    if ($halaman == $nohalaman){                    
+                        $output .= '<li><a href="">'.$halaman.'</a></li>';
+                    }else{ 
+                        $output .= '<li><a href="?'.$query.'">'.$halaman.'</a></li>';
+                    }
+                    $showhalaman = $halaman;          
+                 }
+        }
+
+        // menampilkan link next
+        if ($nohalaman < $jumhalaman){ 
+
+            $params = $_GET;
+            $params['hal'] = $nohalaman+1;
+
+            $query = http_build_query($params);
+            $output .= '<li><a href="?'.($query).'" data-title="Next Page">Next</a></li>';
+        } 
+
+        $output.='</ul>';
+        return $output;
+    }
 
 }
 

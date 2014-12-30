@@ -34,63 +34,72 @@ class Events extends CI_Controller {
 
         $dataPerhalaman = 20;
 
+        if (isset($_GET['hal'])) {
+            $hal = $_GET['hal'];
+        } else {
+            $hal = '';
+        }
+        
+        ($hal == '') ? $nohalaman = 1 : $nohalaman = $hal;
+        $offset = ($nohalaman - 1) * $dataPerhalaman;
+        $off = abs((int) $offset);
+        $data['offset'] = $offset;
+
         $fields = array();
 
-        $data['dataMember'] = $this->events_m->get_all_member($dataPerhalaman, 'date_registered', 'DESC');
-        $data['dataAdministrator'] = $this->events_m->get_all_administrator();
+        $data['dataEvents'] = $this->events_m->get_all_events($dataPerhalaman, $off, 'created', 'DESC');
+        $jmlData = $this->events_m->get_all_events_count('created', 'DESC');
+        $data['paginator'] = $this->events_m->page($jmlData, $dataPerhalaman, $hal);
 
         $this->load->view('admin/template_v', $data);
     }
 
-    public function new_member()
+    public function new_event()
     {
         $data = array();
         $data['session'] = $this->mySession;
-        $data['title'] = "Dashboard | New Member";
-        $data['title_page'] = "New Member";
+        $data['title'] = "Dashboard | New Events";
+        $data['title_page'] = "New Events";
         $data['label_dashboard'] = "Admin Panel";
         $data['url_home'] = base_url('secretadmin');
         $data['url_back'] = base_url('secretadmin/member');
         $data['current_url_breadcrumb'] = current_url();
-
+        $data['listType'] = array(
+            array('id' => 1, 'label' => 'Internal'),
+            array('id' => 2, 'label' => 'Eksternal'),
+            );
+        $listProgram = new PyramidLib\Entity\Events\EventType($this->db);
+        $data['listProgram'] = $listProgram->getListTypeEvents();
+        
         if (isset($_POST['save'])) {
             $this->load->library('form_validation');
-            $this->form_validation->set_rules('username', 'Username', 'required');
-            $this->form_validation->set_rules('email', 'Email', 'required');
-            $this->form_validation->set_rules('phone', 'Phone', 'skip');
-            $this->form_validation->set_rules('password', 'Password', 'min_length[5]|'
-                    . 'max_length[15]|required'
-            );
-            $this->form_validation->set_rules('confirm-password', 'Confirm Password', 'required|matches[password]');
+            $this->form_validation->set_rules('event_name', 'Event Name', 'required');
+            $this->form_validation->set_rules('description', 'Description', 'required');
+
             if ($this->form_validation->run() == FALSE) {
                 $data['error'] = validation_errors();
             } else {
-                $encryptLib = new \PyramidLib\Helper\Authentication();
-
                 $data = array(
-                    'username' => $_POST['username'],
-                    'email' => $_POST['email'],
-                    'phone' => $_POST['phone'],
-                    'username' => $_POST['username'],
-                    'password' => $encryptLib->encrypt($_POST['password']),
-                    'date_registered' => date('Y-m-d H:i:s'),
-                    'id_level' => 5,
-                    'id_status' => 2,
-                    'activate' => 0,
+                    'event_name' => $_POST['event_name'],
+                    'event_type' => $_POST['listType'],
+                    'event_program' => $_POST['listProgram'],
+                    //'event_date_start' => $_POST['dateStart'],
+                    //'event_date_end' => $_POST['dateEnd'],
+                    'event_description' => $_POST['description'],
+                    'event_author' => 'pengurus',
+                    'event_status' => 1,
+                    'created' => date('Y-m-d H:i:s'),
+                    'creator' => 1,
                     'deleted' => 0,
                 );
-
-                $dbMember = new \PyramidLib\Entity\DatabaseModel($this->db);
-                $insertDataMember = $dbMember->insert('tbl_user', $data);
+                $dbEvent = new \PyramidLib\Entity\DatabaseModel($this->db);
+                $insertDataEvent = $dbEvent->insert('tbl_event', $data);
                 
-//                $emailMember = new \PyramidLib\Helper\EmailMember();
-//                $emailMember->newRegisterMember();
-
-                redirect(base_url("secretadmin/member"));
+                redirect(base_url("secretadmin/events"));
             }
         }
         
-        $data['content'] = "admin/new_member_v";
+        $data['content'] = "admin/new_events_v";
 
         $this->load->view('admin/template_v', $data);
     }

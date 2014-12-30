@@ -49,4 +49,25 @@ class Convertion {
         return (object) $out;
     }
 
+    public function eventStatus($idStatus)
+    {
+        switch ($idStatus) {
+            case 1:
+                $out = array('label' => 'Publish', 'id' => 'success');
+                break;
+            case 2:
+                $out = array('label' => 'Draft', 'id' => '');
+                break;
+            case 3:
+                $out = array('label' => 'Expired', 'id' => 'important');
+                break;
+            default:
+                $out = array('label' => 'Unpublished', 'id' => 'warning');
+                break;
+        }
+
+        return (object) $out;
+    }
+
+
 }
